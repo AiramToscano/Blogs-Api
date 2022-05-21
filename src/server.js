@@ -8,7 +8,7 @@ const { verifydisplayName,
 const { createUsers, getUsers, getUserById } = require('./controllers/usercontrollers');
 const { authToken, validToken } = require('./middleware/authToken');
 const { verifyNameCategorie } = require('./middleware/categoriesmiddleware');
-const { createCategorys } = require('./controllers/categorycontrollers');
+const { createCategorys, getCategorys } = require('./controllers/categorycontrollers');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -25,3 +25,4 @@ verifyPassword, verifyEmailExist, createUsers);
 app.get('/user', authToken, validToken, getUsers);
 app.get('/user/:id', authToken, validToken, getUserById);
 app.post('/categories', authToken, validToken, verifyNameCategorie, createCategorys);
+app.get('/categories', authToken, validToken, getCategorys);
