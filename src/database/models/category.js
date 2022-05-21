@@ -1,5 +1,5 @@
 const Categorie = (sequelize, DataTypes) => {
-	const Categorie = sequelize.define('Categorie', {
+	const Categorie = sequelize.define('Category', {
 		id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
