@@ -5,7 +5,7 @@ const { getUser } = require('./controllers/logincontrollers');
 const { verifydisplayName,
   verifyEmail,
   verifyPassword, verifyEmailExist } = require('./middleware/usermiddleware');
-const { createUsers, getUsers } = require('./controllers/usercontrollers');
+const { createUsers, getUsers, getUserById } = require('./controllers/usercontrollers');
 const { authToken, validToken } = require('./middleware/authToken');
 
 // não remova a variável `API_PORT` ou o `listen`
@@ -21,3 +21,4 @@ app.post('/login', validLogin, getUser);
 app.post('/user', verifydisplayName, verifyEmail, 
 verifyPassword, verifyEmailExist, createUsers);
 app.get('/user', authToken, validToken, getUsers);
+app.get('/user/:id', authToken, validToken, getUserById);

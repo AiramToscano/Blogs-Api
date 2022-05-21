@@ -1,4 +1,4 @@
-const { createUser, findAllUsers } = require('../Services/userService');
+const { createUser, findAllUsers, userById } = require('../Services/userService');
 
 const createUsers = async (req, res) => {
     try {
@@ -19,7 +19,17 @@ const getUsers = async (_req, res) => {
     }
 };
 
+const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+    const user = await userById(id);
+    return res.status(200).json(user);
+    } catch (err) {
+        return res.status(err.error).json({ message: err.message });
+    }
+};
 module.exports = {
     createUsers,
     getUsers,
+    getUserById,
 };

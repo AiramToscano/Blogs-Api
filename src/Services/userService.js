@@ -1,6 +1,11 @@
 const { User } = require('../database/models');
 const { createJWT } = require('../utils/createJWT');
 
+const erroUser = {
+    error: 404,
+    message: 'User does not exist',
+};
+
 const findEmail = async (emailLogin) => {
     const findUser = await User.findOne({ where: { email: emailLogin } });
     if (!findUser) {
@@ -21,16 +26,26 @@ const createUser = async (displayname, useremail, userpassword, userimage) => {
 };
 
 const findAllUsers = async () => {
-    const findall = await User.findAll(
+    const finduser = await User.findAll(
 {
 attributes: { exclude: ['password'] },
 },
 );
- return findall;
+ return finduser;
+};
+
+const userById = async (id) => {
+const user = await User.findByPk(id,
+{
+attributes: { exclude: ['password'] },
+});
+if (!user) throw erroUser;
+return user;
 };
 
 module.exports = {
     findEmail,
     createUser,
     findAllUsers,
+    userById,
 };
