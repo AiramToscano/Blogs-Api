@@ -1,6 +1,5 @@
-const jwt = require('jsonwebtoken');
 const { User } = require('../database/models');
-const jwtConfig = require('../database/config/jwtConfig');
+const { createJWT } = require('../utils/createJWT');
 
 const erroLogin = {
     error: 400,
@@ -12,7 +11,7 @@ const findUsers = async (emailLogin, passwordLogin) => {
     if (!findUser) {
      throw erroLogin;
     }
-    const token = jwt.sign({ data: emailLogin }, process.env.JWT_SECRET, jwtConfig.configs);
+    const token = createJWT(emailLogin);
     return token;
   };
 
