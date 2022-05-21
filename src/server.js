@@ -5,7 +5,8 @@ const { getUser } = require('./controllers/logincontrollers');
 const { verifydisplayName,
   verifyEmail,
   verifyPassword, verifyEmailExist } = require('./middleware/usermiddleware');
-const { getUsers } = require('./controllers/usercontrollers');
+const { createUsers, getUsers } = require('./controllers/usercontrollers');
+const { authToken, validToken } = require('./middleware/authToken');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -18,4 +19,5 @@ app.get('/', (_request, response) => {
 app.listen(port, () => console.log('ouvindo porta', port));
 app.post('/login', validLogin, getUser);
 app.post('/user', verifydisplayName, verifyEmail, 
-verifyPassword, verifyEmailExist, getUsers);
+verifyPassword, verifyEmailExist, createUsers);
+app.get('/user', authToken, validToken, getUsers);
