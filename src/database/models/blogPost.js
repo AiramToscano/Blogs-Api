@@ -7,9 +7,9 @@ const BlogPost = (sequelize, DataTypes) => {
           },
 		title: DataTypes.STRING,
         content: DataTypes.STRING,
-		userid: DataTypes.INTEGER,
+		userId: DataTypes.INTEGER,
         updated: DataTypes.DATE,
-        publisher: DataTypes.DATE,
+        published: DataTypes.DATE,
 	});
 
 	BlogPost.associate = (models) => {
