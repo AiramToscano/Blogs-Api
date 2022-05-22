@@ -9,6 +9,8 @@ const { createUsers, getUsers, getUserById } = require('./controllers/usercontro
 const { authToken, validToken } = require('./middleware/authToken');
 const { verifyNameCategorie } = require('./middleware/categoriesmiddleware');
 const { createCategorys, getCategorys } = require('./controllers/categorycontrollers');
+const { validpostFields, validCategoryIds } = require('./middleware/postmiddleware');
+const { createPosts } = require('./controllers/postcontrollers');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -26,3 +28,4 @@ app.get('/user', authToken, validToken, getUsers);
 app.get('/user/:id', authToken, validToken, getUserById);
 app.post('/categories', authToken, validToken, verifyNameCategorie, createCategorys);
 app.get('/categories', authToken, validToken, getCategorys);
+app.post('/post', authToken, validToken, validpostFields, validCategoryIds, createPosts);

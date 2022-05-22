@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const jwtConfig = require('../database/config/jwtConfig');
 
 const authToken = async (req, res, next) => {
     try {
@@ -8,7 +9,7 @@ const authToken = async (req, res, next) => {
     }
     next();
 } catch (err) {
-        res.status(500).json(err.message);
+       return res.status(500).json(err.message);
     }
 };
 
@@ -22,7 +23,13 @@ const validToken = async (req, res, next) => {
         }
 };
 
+const decodedToken = async (token) => {
+        const decoded = jwt.decode(token, process.env.JWT_SECRET, jwtConfig.configs.algorithm);
+        return decoded;  
+};
+
 module.exports = {
     authToken,
     validToken,
+    decodedToken,
 };

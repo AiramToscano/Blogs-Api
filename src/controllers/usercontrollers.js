@@ -6,7 +6,7 @@ const createUsers = async (req, res) => {
         const createtoken = await createUser(displayName, email, password, image);
         return res.status(201).json({ token: createtoken });
     } catch (err) {
-        return res.status(err.error).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
     }
 };
 
@@ -15,7 +15,7 @@ const getUsers = async (_req, res) => {
     const alluser = await findAllUsers();
     return res.status(200).json(alluser);
     } catch (err) {
-        return res.status(500).json({ message: err.message });
+        return res.status(err.error).json({ message: err.message });
     }
 };
 
