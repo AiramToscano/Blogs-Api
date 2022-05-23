@@ -51,7 +51,7 @@ const updatePosts = async (req, res) => {
     const post = await getPostandUserandCategoriesID(id);
     return res.status(200).json(post);
     } catch (err) {
-        return res.status(500).json({ message: err.message });
+        return res.status(err.error).json({ message: err.message });
     }
 };
 
