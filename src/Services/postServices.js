@@ -50,9 +50,30 @@ through: { attributes: [] },
     return findpost;
 };
 
+const getPostandUserandCategoriesID = async (id) => {
+    const findpost = await BlogPost.findByPk(
+        id,
+        {
+            attributes: { exclude: ['userid'] },
+include: [{
+model: User,
+as: 'user',
+attributes: { exclude: ['password'] },
+},
+{
+model: Category,
+as: 'categories',
+through: { attributes: [] },
+}],
+        },
+    );
+    return findpost;
+};
+
 module.exports = {
     verifyCategoryId,
     createPost,
     findUserpost,
     getPostandUserandCategories,
+    getPostandUserandCategoriesID,
 };

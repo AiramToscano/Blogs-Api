@@ -1,6 +1,7 @@
 const { createPost } = require('../Services/postServices');
 const { decodedToken } = require('../middleware/authToken');
-const { findUserpost, getPostandUserandCategories } = require('../Services/postServices');
+const { findUserpost,
+getPostandUserandCategories, getPostandUserandCategoriesID } = require('../Services/postServices');
 
 const createPosts = async (req, res) => {
     try {
@@ -24,7 +25,21 @@ const getPost = async (req, res) => {
     }
 };
 
+const getPostId = async (req, res) => {
+    try {
+        const { id } = req.params;
+    const postId = await getPostandUserandCategoriesID(id);
+    if (!postId) {
+        return res.status(404).json({ message: 'Post does not exist' });
+    }
+    return res.status(200).json(postId);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     createPosts,
     getPost,
+    getPostId,
 };
