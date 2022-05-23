@@ -1,6 +1,6 @@
 const { createPost } = require('../Services/postServices');
 const { decodedToken } = require('../middleware/authToken');
-const { findUserpost } = require('../Services/postServices');
+const { findUserpost, getPostandUserandCategories } = require('../Services/postServices');
 
 const createPosts = async (req, res) => {
     try {
@@ -15,6 +15,16 @@ const createPosts = async (req, res) => {
     }
 };
 
+const getPost = async (req, res) => {
+    try {
+    const post = await getPostandUserandCategories();
+    return res.status(200).json(post);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     createPosts,
+    getPost,
 };

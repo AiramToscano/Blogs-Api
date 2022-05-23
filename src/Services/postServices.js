@@ -31,8 +31,28 @@ const findUserpost = async (emailLogin) => {
     return finduser.dataValues;
   };
 
+const getPostandUserandCategories = async () => {
+    const findpost = await BlogPost.findAll(
+        {
+            attributes: { exclude: ['userid'] },
+include: [{
+model: User,
+as: 'user',
+attributes: { exclude: ['password'] },
+},
+{
+model: Category,
+as: 'categories',
+through: { attributes: [] },
+}],
+        },
+    );
+    return findpost;
+};
+
 module.exports = {
     verifyCategoryId,
     createPost,
     findUserpost,
+    getPostandUserandCategories,
 };
