@@ -43,9 +43,18 @@ if (!user) throw erroUser;
 return user;
 };
 
+const deleteUser = async (iduserToken, iduser) => {
+    if (Number(iduserToken) === Number(iduser)) {
+        const finbyid = await User.findByPk(iduserToken);
+        finbyid.destroy(); 
+    return true;
+    }
+};
+
 module.exports = {
     findEmail,
     createUser,
     findAllUsers,
     userById,
+    deleteUser,
 };

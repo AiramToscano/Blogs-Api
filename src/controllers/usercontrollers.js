@@ -1,4 +1,7 @@
-const { createUser, findAllUsers, userById } = require('../Services/userService');
+const { createUser, findAllUsers,
+     userById, deleteUser } = require('../Services/userService');
+const { decodedToken } = require('../middleware/authToken');
+const { findUserpost } = require('../Services/postServices');
 
 const createUsers = async (req, res) => {
     try {
@@ -28,8 +31,23 @@ const getUserById = async (req, res) => {
         return res.status(err.error).json({ message: err.message });
     }
 };
+
+const deleteusers = async (req, res) => {
+    try {
+    const { id } = req.params;
+    // console.log(id);
+    const token = req.headers.authorization;
+    const tokenDecode = await decodedToken(token);
+    const iduser = await findUserpost(tokenDecode.data);
+    await deleteUser(iduser.id, id);
+    return res.status(204).end();
+    } catch (err) {
+        return res.status(err.error).json({ message: err.message });
+    }
+};
 module.exports = {
     createUsers,
     getUsers,
     getUserById,
+    deleteusers,
 };

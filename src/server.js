@@ -5,7 +5,8 @@ const { getUser } = require('./controllers/logincontrollers');
 const { verifydisplayName,
   verifyEmail,
   verifyPassword, verifyEmailExist } = require('./middleware/usermiddleware');
-const { createUsers, getUsers, getUserById } = require('./controllers/usercontrollers');
+const { createUsers, getUsers, 
+  getUserById, deleteusers } = require('./controllers/usercontrollers');
 const { authToken, validToken } = require('./middleware/authToken');
 const { verifyNameCategorie } = require('./middleware/categoriesmiddleware');
 const { createCategorys, getCategorys } = require('./controllers/categorycontrollers');
@@ -35,3 +36,4 @@ app.get('/post', authToken, validToken, getPost);
 app.get('/post/:id', authToken, validToken, getPostId);
 app.put('/post/:id', authToken, validToken, validpostFieldsUpdate, updatePosts);
 app.delete('/post/:id', authToken, validToken, deletePosts);
+app.delete('/user/:id', authToken, validToken, deleteusers);
