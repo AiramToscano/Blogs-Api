@@ -2,7 +2,7 @@ const { createPost } = require('../Services/postServices');
 const { decodedToken } = require('../middleware/authToken');
 const { findUserpost,
 getPostandUserandCategories, 
-getPostandUserandCategoriesID, findUpadterpost } = require('../Services/postServices');
+getPostandUserandCategoriesID, findUpadterpost, deletePost } = require('../Services/postServices');
 
 const createPosts = async (req, res) => {
     try {
@@ -54,9 +54,23 @@ const updatePosts = async (req, res) => {
     }
 };
 
+const deletePosts = async (req, res) => {
+    try {
+    const { id } = req.params;
+    const token = req.headers.authorization;
+    const tokenDecode = await decodedToken(token);
+    const iduser = await findUserpost(tokenDecode.data);
+    await deletePost(id, iduser.id);
+    return res.status(204).end();
+    } catch (err) {
+        return res.status(err.error).json({ message: err.message });
+    }
+};
+
 module.exports = {
     createPosts,
     getPost,
     getPostId,
     updatePosts,
+    deletePosts,
 };

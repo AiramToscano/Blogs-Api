@@ -94,6 +94,18 @@ const findUpadterpost = async (postTitle, postContent, userId, postid) => {
  throw erroUser;
 };
 
+const deletePost = async (idpost, iduser) => {
+    const verifyuserid = await getPostandUserandCategoriesID(idpost);
+    if (verifyuserid === null) throw erropost;
+    const userid = verifyuserid.dataValues.userId;
+    if (userid === iduser) {
+       const finbyid = await BlogPost.findByPk(idpost);
+       await finbyid.destroy(); 
+    return true;
+ }
+    throw erroUser;
+};
+
 module.exports = {
     verifyCategoryId,
     createPost,
@@ -101,4 +113,5 @@ module.exports = {
     getPostandUserandCategories,
     getPostandUserandCategoriesID,
     findUpadterpost,
+    deletePost,
 };

@@ -11,7 +11,8 @@ const { verifyNameCategorie } = require('./middleware/categoriesmiddleware');
 const { createCategorys, getCategorys } = require('./controllers/categorycontrollers');
 const { validpostFields, 
   validCategoryIds, validpostFieldsUpdate } = require('./middleware/postmiddleware');
-const { createPosts, getPost, getPostId, updatePosts } = require('./controllers/postcontrollers');
+const { createPosts, getPost, getPostId,
+   updatePosts, deletePosts } = require('./controllers/postcontrollers');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -33,3 +34,4 @@ app.post('/post', authToken, validToken, validpostFields, validCategoryIds, crea
 app.get('/post', authToken, validToken, getPost);
 app.get('/post/:id', authToken, validToken, getPostId);
 app.put('/post/:id', authToken, validToken, validpostFieldsUpdate, updatePosts);
+app.delete('/post/:id', authToken, validToken, deletePosts);
