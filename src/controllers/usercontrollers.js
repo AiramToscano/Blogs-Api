@@ -35,7 +35,6 @@ const getUserById = async (req, res) => {
 const deleteusers = async (req, res) => {
     try {
     const { id } = req.params;
-    // console.log(id);
     const token = req.headers.authorization;
     const tokenDecode = await decodedToken(token);
     const iduser = await findUserpost(tokenDecode.data);

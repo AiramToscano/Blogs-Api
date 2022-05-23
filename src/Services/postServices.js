@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, PostCategory, Category, User } = require('../database/models');
 
 const erroUser = {
@@ -106,6 +107,37 @@ const deletePost = async (idpost, iduser) => {
     throw erroUser;
 };
 
+const searchPostWithQ = async (params) => {
+    const PostFind = await BlogPost.findOne({
+        where: {
+            [Op.or]: [
+                {
+                  title: {
+                    [Op.like]: `%${params}%`,
+                  },
+                },
+                {
+                  content: {
+                    [Op.like]: `%${params}%`,
+                  },
+                },
+              ],
+          },
+        });
+        return PostFind;
+};
+
+const verifysearch = async (q) => {
+    const searchwithq = await searchPostWithQ(q);
+    if (searchwithq === null) return [];
+    if (q === '') {
+        const searchall = await getPostandUserandCategories();
+        return searchall;
+    }
+  const findpost = await getPostandUserandCategoriesID(searchwithq.dataValues.id);
+  return [findpost];
+};
+
 module.exports = {
     verifyCategoryId,
     createPost,
@@ -114,4 +146,5 @@ module.exports = {
     getPostandUserandCategoriesID,
     findUpadterpost,
     deletePost,
+    verifysearch,
 };

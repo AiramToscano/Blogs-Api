@@ -2,7 +2,8 @@ const { createPost } = require('../Services/postServices');
 const { decodedToken } = require('../middleware/authToken');
 const { findUserpost,
 getPostandUserandCategories, 
-getPostandUserandCategoriesID, findUpadterpost, deletePost } = require('../Services/postServices');
+getPostandUserandCategoriesID, 
+findUpadterpost, deletePost, verifysearch } = require('../Services/postServices');
 
 const createPosts = async (req, res) => {
     try {
@@ -50,7 +51,7 @@ const updatePosts = async (req, res) => {
     const post = await getPostandUserandCategoriesID(id);
     return res.status(200).json(post);
     } catch (err) {
-        return res.status(err.error).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
     }
 };
 
@@ -67,10 +68,21 @@ const deletePosts = async (req, res) => {
     }
 };
 
+const searchPosts = async (req, res) => {
+    try {
+    const { q } = req.query;
+  const search = await verifysearch(q);
+    return res.status(200).json(search);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     createPosts,
     getPost,
     getPostId,
     updatePosts,
     deletePosts,
+    searchPosts,
 };

@@ -13,7 +13,7 @@ const { createCategorys, getCategorys } = require('./controllers/categorycontrol
 const { validpostFields, 
   validCategoryIds, validpostFieldsUpdate } = require('./middleware/postmiddleware');
 const { createPosts, getPost, getPostId,
-   updatePosts, deletePosts } = require('./controllers/postcontrollers');
+   updatePosts, deletePosts, searchPosts } = require('./controllers/postcontrollers');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -24,6 +24,7 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(port, () => console.log('ouvindo porta', port));
+app.get('/post/search', authToken, validToken, searchPosts);
 app.post('/login', validLogin, getUser);
 app.post('/user', verifydisplayName, verifyEmail, 
 verifyPassword, verifyEmailExist, createUsers);
