@@ -8,6 +8,14 @@ const validpostFields = (req, res, next) => {
     return next();
    };
 
+const validpostFieldsUpdate = (req, res, next) => {
+    const { title, content } = req.body;
+    if (title === '' || content === '') {
+        return res.status(400).json({ message: 'Some required fields are missing' });
+    }
+    return next();
+   };
+
 const validCategoryIds = async (req, res, next) => {
     try {
     const { categoryIds } = req.body;
@@ -22,4 +30,5 @@ const validCategoryIds = async (req, res, next) => {
    module.exports = {
     validpostFields,
     validCategoryIds,
+    validpostFieldsUpdate,
    };

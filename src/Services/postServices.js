@@ -1,5 +1,15 @@
 const { BlogPost, PostCategory, Category, User } = require('../database/models');
 
+const erroUser = {
+    error: 401,
+    message: 'Unauthorized user',
+};
+
+const erropost = {
+    error: 404,
+    message: 'Post does not exist',
+};
+
 const verifyCategoryId = async (data) => {
     const findId = await Promise.all(data.map(async (idUser) => {
     const findUser = await Category.findOne({ where: { id: idUser } });
@@ -70,10 +80,25 @@ through: { attributes: [] },
     return findpost;
 };
 
+const findUpadterpost = async (postTitle, postContent, userId, postid) => {
+ const verifyuserid = await getPostandUserandCategoriesID(postid);
+ if (verifyuserid === null) throw erropost;
+ const userid = verifyuserid.dataValues.userId;
+ if (userid === userId) {
+        const finbyid = await BlogPost.findByPk(postid);
+        finbyid.title = postTitle;
+        finbyid.content = postContent;
+        await finbyid.save();
+      return true;    
+ }
+ throw erroUser;
+};
+
 module.exports = {
     verifyCategoryId,
     createPost,
     findUserpost,
     getPostandUserandCategories,
     getPostandUserandCategoriesID,
+    findUpadterpost,
 };
