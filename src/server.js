@@ -1,20 +1,9 @@
 require('dotenv').config();
 const app = require('./api');
-const { validLogin } = require('./middleware/loginmiddleware');
-const { getUser } = require('./controllers/logincontrollers');
-const { verifydisplayName,
-  verifyEmail,
-  verifyPassword, verifyEmailExist } = require('./middleware/usermiddleware');
-const { createUsers, getUsers, 
-  getUserById, deleteusers } = require('./controllers/usercontrollers');
-const { authToken, validToken } = require('./middleware/authToken');
-const { verifyNameCategorie } = require('./middleware/categoriesmiddleware');
-const { createCategorys, getCategorys } = require('./controllers/categorycontrollers');
-const { validpostFields, 
-  validCategoryIds, validpostFieldsUpdate } = require('./middleware/postmiddleware');
-const { createPosts, getPost, getPostId,
-   updatePosts, deletePosts, searchPosts } = require('./controllers/postcontrollers');
-
+const routeCategories = require('./routes/routeCategories');
+const routeLogin = require('./routes/routeLogin');
+const routePost = require('./routes/routePost');
+const routeUser = require('./routes/routeUser');
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
 
@@ -24,17 +13,8 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(port, () => console.log('ouvindo porta', port));
-app.get('/post/search', authToken, validToken, searchPosts);
-app.post('/login', validLogin, getUser);
-app.post('/user', verifydisplayName, verifyEmail, 
-verifyPassword, verifyEmailExist, createUsers);
-app.get('/user', authToken, validToken, getUsers);
-app.get('/user/:id', authToken, validToken, getUserById);
-app.post('/categories', authToken, validToken, verifyNameCategorie, createCategorys);
-app.get('/categories', authToken, validToken, getCategorys);
-app.post('/post', authToken, validToken, validpostFields, validCategoryIds, createPosts);
-app.get('/post', authToken, validToken, getPost);
-app.get('/post/:id', authToken, validToken, getPostId);
-app.put('/post/:id', authToken, validToken, validpostFieldsUpdate, updatePosts);
-app.delete('/post/:id', authToken, validToken, deletePosts);
-app.delete('/user/:id', authToken, validToken, deleteusers);
+
+app.use('/categories', routeCategories);
+app.use('/login', routeLogin);
+app.use('/post', routePost);
+app.use('/user', routeUser);
