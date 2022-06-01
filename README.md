@@ -14,3 +14,5 @@
   2. Foi realizada uma relação de post que dependem de  usuário e login, portanto será trabalhada a **relação entre** `user` e `post`; 
 
   3. Foi realizada uma relação de categorias para os posts, trabalhando, assim, a **relação de** `posts` para `categories` e de `categories` para `posts`.
+
+Obs: Alguns testes para a validação do projeto foram implementados pelos especialistas da Trybe.
